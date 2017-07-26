@@ -1,0 +1,30 @@
+photo:
+    path:     /
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:index" }
+
+photo_show:
+    path:     /{id}/show
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:show" }
+
+photo_new:
+    path:     /new
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:new" }
+
+photo_create:
+    path:     /create
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:create" }
+    requirements: { _method: post }
+
+photo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:edit" }
+
+photo_update:
+    path:     /{id}/update
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:update" }
+    requirements: { _method: post|put }
+
+#photo_delete:
+#    path:     /{id}/delete
+#    defaults: { _controller: "EtdEtudiantBundle:Photo:delete" }
+#   requirements: { _method: post|delete }

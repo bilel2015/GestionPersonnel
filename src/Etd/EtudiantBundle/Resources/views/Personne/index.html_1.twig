@@ -1,0 +1,63 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Liste de Personne</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nom</th>
+                            <th>prenom</th>
+                            <th>age</th>
+                            <th>Fonction</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td><a href="{{ path('personne_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td>{{ entity.nom }}</td>
+                                <td>{{ entity.prenom }}</td>
+                                <td>{{ entity.age }}</td>
+                                <td>{{ entity.fonction }}</td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('personne_show', { 'id': entity.id }) }}">show</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('personne_edit', { 'id': entity.id }) }}">edit</a>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <button type="button" class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-trash"></span> 
+                                                </button>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <ul>
+        <li>
+            <a href="{{ path('personne_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock %}

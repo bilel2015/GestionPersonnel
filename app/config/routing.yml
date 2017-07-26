@@ -1,0 +1,7 @@
+etd_etudiant:
+    resource: "@EtdEtudiantBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: @AppBundle/Controller/
+    type:     annotation

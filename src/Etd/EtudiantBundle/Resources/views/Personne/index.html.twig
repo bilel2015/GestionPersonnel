@@ -1,0 +1,454 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalmodifier" idmodierpersonne='' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de modifier</h4>
+                </div>
+                <div class="modal-body"  style="padding-bottom: 80px;">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nom">Nom:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nom" placeholder="Enter Nom">
+                            <p class="help-block" style="display: none;">Ajouter votre nom.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="prenom">Prenom:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="prenom" placeholder="Enter Prénom">
+                            <p class="help-block" style="display: none;">Ajouter votre prenom.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="cne">Cne:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="cne" placeholder="Enter cne">
+                            <p class="help-block" style="display: none;">Ajouter votre cne.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="fonction">Fonction:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="fonction" placeholder="Enter Prénom">
+                            <p class="help-block" style="display: none;">Ajouter votre fonction.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="gae">Age:</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="age" placeholder="Enter Age">
+                            <p class="help-block" style="display: none;">Ajouter votre age.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="okmodifier();">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" idpersonne="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de supprimer</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom: 36px;">
+                    Vous voullez vraimment supprimer cette personne ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="oksupprimer();">Ok supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <h2>Liste de Personne</h2>
+            <div id ='toutsupprimer' class="alert alert-info" style="margin: 0; display:none">
+                <i class="icon-info-sign"></i>  Aucun personne à afficher<strong>!</strong>
+            </div>
+            <div class="table-responsive" >
+                <table class="table table-bordered table-hover" id='table_personne'>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th style="width: 8%;">photo</th>
+                            <th>nom</th>
+                            <th>prenom</th>
+                            <th>Cne</th>
+                            <th>age</th>
+                            <th>Fonction</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mybody">
+                        {% for entity in entities %}
+                            <tr id="{{entity.id}}">
+                                <td><a href="{{ path('personne_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td class="photop" style="text-align: center;padding: 0px;" id="tooltip{{entity.id}}"> 
+
+                                    <img src="/symheritage/web/uploads/pieceJoin/{{entity.photos[0].id}}_{{entity.photos[0].url}}" style="width: 58px;height: 42px;"/>
+
+                                </td>
+                                <td class="nomp"><a href="{{path('personne_show',{'id':entity.id})}}">{{ entity.nom }}</a></td>
+                                <td class="prenomp"><a href="{{path('personne_show',{'id':entity.id})}}">{{ entity.prenom }}</a></td>
+                                <td class="cnep">{{ entity.cne }}</td>
+                                <td class="agep">{{ entity.age }}</td>
+                                <td class="fonctionp">{{ entity.fonction }}</td>
+                                <td  style="text-align: center;" >
+
+                                    <button title="supprimer" class="tooltipsupprimer" type="button" onclick="supprimer({{ entity.id }});" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span> 
+                                    </button>
+
+
+                                    <button type="button"  class="tooltipmodifier" onclick="modifier({{entity.id}});" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-edit" class="tooltip" title="modifier" ></span> 
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <ul id="pagination-demo" class="pagination-sm"></ul>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <h1>Recherche</h1>
+                <form role="form">
+                    <div class="form-group input-group">
+                        <input id="chercher" type="text" class="form-control">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="row">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        Panel content
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        Panel content
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+            ///recherche////
+            $('#chercher').keyup(function(e) {
+
+                chercher = $('#chercher').val().trim();
+                var html = "";
+                //$('#table_result').html(''); // on vide les resultats
+                //$('#ajax-loader').remove(); // on retire le loader
+
+                if (e.keyCode == 8 && chercher == '') {
+
+                    // $('#25').css('display', 'none');
+                    //$('#body').css('display', '');
+
+                    // on envoie la valeur recherché en GET au fichier de traitement
+                    $.ajax({
+                        type: 'POST', // envoi des données en GET ou POST
+                        url: '{{ path('personne_chercher') }}', // url du fichier de traitement
+                        data: {'chercher': chercher}, // données à envoyer en  GET ou POST
+                        beforeSend: function() { // traitements JS à faire AVANT l'envoi
+                            $('.bokeh').show();
+                        },
+                        success: function(data) { // traitements JS à faire APRES le retour d'ajax-search.php
+
+                            $('#table_personne').html('');
+                            $('#table_personne').html(data);
+                            $('.bokeh').hide();
+
+                        }
+
+
+                    });
+                    // resetFiltres();
+                } else if (chercher.length > 2) {
+
+                    // $('#25').css('display', 'none');
+                    $('#table_personne').css('display', '');
+                    // on envoie la valeur recherché en GET au fichier de traitement
+                    $.ajax({
+                        type: 'POST', // envoi des données en GET ou POST
+                        url: '{{ path('personne_chercher') }}', // url du fichier de traitement
+                        data: {'chercher': chercher}, // données à envoyer en  GET ou POST
+                        beforeSend: function() { // traitements JS à faire AVANT l'envoi
+                            $('.bokeh').show();
+                        },
+                        success: function(data) { // traitements JS à faire APRES le retour d'ajax-search.php
+
+                            $('#table_personne').html('');
+                            $('#table_personne').html(data);
+                            $('.bokeh').hide();
+                          /*  $.each(json, function(index, value)
+                            {
+
+                                val = "/revisionsymfony2/web/uploads/pieceJoin/" + value.idphoto + '_' + value.url;
+                                $('#tooltip' + value.id).tooltipster({content: $('<span style="width:20%;"><img src=' + val + ' style="width:200px;height:200px;"/></span>')});
+                            });*/
+
+                        }
+
+
+                    });
+
+                }
+            });
+            ///fin recherche////
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('charger_proprietaire')}}",
+                        cache: false,
+                        global: false,
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            var myselect = '';
+                            $.each(json, function(index, value)
+                            {
+                               // console.log(value);
+                                //console.log(value.id);
+                                val = "/symheritage/web/uploads/pieceJoin/" + value.idphoto + '_' + value.url;
+                                $('#tooltip' + value.id).tooltipster({content: $('<span style="width:20%;"><img src=' + val + ' style="width:200px;height:200px;"/></span>')});
+                            });
+                            //console.log(myselect);
+                            // $('#proprietaire').append(myselect);
+                            $('.bokeh').hide();
+                            // $('#btnmodal').hide();
+                            /* setTimeout(function() {
+                             $('.modal-backdrop').css("display", "none");
+                             }, 5000);*/
+                        },
+                        error: function() {
+
+                        }
+                    });
+            /* var idArray = [];
+             $('.red').each(function() {
+             idArray.push(this.id);
+             });*/
+
+            $('.tooltipsupprimer').tooltipster({
+                content: $('<span>supprimer</span>')
+            });
+            $('.tooltipmodifier').tooltipster({
+                content: $('<span>Modifier</span>')
+            });
+            var rowCount = $('#table_personne tr').length;
+            //var d=$('#tbody').is(':empty');
+
+            if (rowCount == 1) {
+                $('#table_personne').css('display', 'none');
+                $('#toutsupprimer').fadeIn();
+            }
+            $('#pagination-demo').twbsPagination({
+                totalPages:{{nbr}},
+                        visiblePages: 7,
+                onPageClick: function(event, page) {
+                    $.ajax(
+                            {
+                                type: "POST",
+                                url: "{{ path ('personne_pagination')}}",
+                                cache: false,
+                                global: false,
+                                data: {'page': page},
+                                beforeSend: function() {
+                                    $('.bokeh').show();
+                                },
+                                success: function(json) {
+                                    myselect = '';
+                                    // console.log(json);
+                                    setTimeout(function() {
+                                        $('.modal-backdrop').css("display", "none");
+                                    }, 5000);
+                                    $('.bokeh').hide();
+                                    $('#mybody').html('');
+                                    $.each(json, function(index, value)
+                                    {
+                                        h = '{{path('personne')}}';
+                                        val = "/symheritage/web/uploads/pieceJoin/" + value.idphoto + '_' + value.url;
+                                        myselect += '<tr id=' + value.id + '>';
+                                        myselect += '<td><a href='+ h +'' + value.id + '/show>' + value.id + '</a></td>';
+                                        myselect += '<td class="photop" style="text-align: center;padding: 0px;" id="tooltip' + value.id + '"><a href="#"></a><img src=' + val + ' style="width: 58px;height: 42px;"/></td>';
+                                        myselect += '<td class="nomp"><a href='+ h +'' + value.id + '/show>' + value.nom + '</a></td>';
+                                        myselect += '<td class="prenomp"><a href='+ h +'' + value.id + '/show>' + value.prenom + '</a></td>';
+                                        myselect += '<td class="agep">' + value.cne + '</td>';
+                                        myselect += '<td class="cnep">' + value.age + '</td>';
+                                        myselect += '<td class="fonctionp">' + value.fonction + '</td>';
+                                        myselect += '<td  style="text-align: center;">';
+                                        myselect += '<button title="supprimer" class="tooltipsupprimer" type="button" onclick="supprimer(' + value.id + ');" class="btn btn-default btn-sm">';
+                                        myselect += '<span class="glyphicon glyphicon-trash"></span>';
+                                        myselect += '</button>';
+                                        myselect += '<button type="button"  class="tooltipmodifier" onclick="modifier(' + value.id + ');" class="btn btn-default btn-sm">';
+                                        myselect += '<span class="glyphicon glyphicon-edit" class="tooltip" title="modifier" ></span>';
+                                        myselect += '</button>';
+                                        myselect += '</td></tr>';
+                                    });
+                                    $('#mybody').html(myselect);
+                                    $.each(json, function(index, value)
+                                    {
+
+                                        val = "/symheritage/web/uploads/pieceJoin/" + value.idphoto + '_' + value.url;
+                                        $('#tooltip' + value.id).tooltipster({content: $('<span style="width:20%;"><img src=' + val + ' style="width:200px;height:200px;"/></span>')});
+                                    });
+                                },
+                                error: function() {
+
+                                }
+                            });
+                }
+
+            });
+        });
+        function supprimer(id)
+        {
+            $('#myModal').modal('show');
+            $('#myModal').attr('idpersonne', id);
+
+        }
+
+        function oksupprimer()
+        {
+            var id = $('#myModal').attr('idpersonne');
+            // $("#myModal").hide();
+            $('#myModal').modal('hide');
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('personne_delete')}}",
+                        cache: false,
+                        global: false,
+                        data: {'id': id},
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            alertify.success("Supprimer avec succes");
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 5000);
+                            $('#' + id).remove();
+                            $('.bokeh').hide();
+                            var rowCount = $('#table_personne tr').length;
+                            //var d=$('#tbody').is(':empty');
+
+                            if (rowCount == 1) {
+                                $('#table_personne').css('display', 'none');
+                                $('#toutsupprimer').fadeIn();
+                            }
+                            //alert(rowCount);
+                        },
+                        error: function() {
+
+                        }
+                    });
+        }
+        function modifier(id)
+        {
+            $('#myModalmodifier').modal('show');
+            var nom = $('#' + id + '> td.nomp').text();
+            var prenom = $('#' + id + '> td.prenomp').text();
+            var fonction = $('#' + id + '> .fonctionp').text();
+            var age = $('#' + id + '> .agep').text();
+            var cne = $('#' + id + '> .cnep').text();
+            document.getElementById('nom').value = nom.trim();
+            document.getElementById('prenom').value = prenom.trim();
+            document.getElementById('fonction').value = fonction.trim();
+            document.getElementById('age').value = age.trim();
+            document.getElementById('cne').value = cne.trim();
+            $('#myModalmodifier').attr('idmodierpersonne', id);
+        }
+
+        function okmodifier()
+        {
+            $("#myModalmodifier").modal('hide');
+            id = $('#myModalmodifier').attr('idmodierpersonne');
+            nom = $('#nom').val();
+            prenom = $('#prenom').val();
+            age = $('#age').val();
+            fonction = $('#fonction').val();
+            cne = $('#cne').val();
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('personne_update')}}",
+                        cache: false,
+                        global: false,
+                        data: {'id': id, 'nom': nom, 'prenom': prenom, 'age': age, 'fonction': fonction, 'cne': cne},
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            alertify.success("modifier avec succes");
+                            $('.bokeh').hide();
+                            $('#btnmodal').hide();
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 2000);
+                            $('#' + id + '> td.nomp > a').text(nom);
+                            $('#' + id + '> td.prenomp >a').text(prenom);
+                            $('#' + id + '> td.agep').text(age);
+                            $('#' + id + '> td.fonctionp').text(fonction);
+                            $('#' + id + '> td.cnep').text(cne);
+                            /*$('#' + id + '> td.prenomp').text()= prenom;
+                             $('#' + id + '> .fonctionp').text()= fonction;
+                             $('#' + id + '> .agep').text()= age;*/
+                        },
+                        error: function() {
+
+                        }
+                    });
+        }
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.tooltip').tooltipster({
+                contentAsHTML: true,
+                Default: false,
+                multiple: true
+            });
+        });
+    </script>
+{% endblock %}

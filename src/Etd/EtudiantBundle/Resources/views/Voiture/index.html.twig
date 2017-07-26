@@ -1,0 +1,380 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalmodifier" idmodiervoiture='' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de modifier</h4>
+                </div>
+                <div class="modal-body"  style="padding-bottom: 80px;">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="marque">Marque:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="marque" placeholder="Enter Nom">
+                            <p class="help-block" style="display: none;">Ajouter votre marque.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="model">Model:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="model" placeholder="Enter le Model">
+                            <p class="help-block" style="display: none;">Ajouter votre model.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="matricule">Matricule:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="matricule" placeholder="Enter le matricule">
+                            <p class="help-block" style="display: none;">Ajouter votre age.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="proprietaire">Propriétaire:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="proprietaire"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="okmodifier();">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" idvoiture="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de supprimer</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom: 36px;">
+                    Vous voullez vraimment supprimer cette voiture ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="oksupprimer();">Ok supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <h2>Liste de Personne</h2>
+            <div id ='toutsupprimer' class="alert alert-info" style="margin: 0; display:none">
+                <i class="icon-info-sign"></i>  Aucun voiture à afficher<strong>!</strong>
+            </div>
+            <div class="table-responsive" >
+                <table class="table table-bordered table-hover" id='table_voiture'>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th style="width: 8%;">photo</th>
+                            <th>marque</th>
+                            <th>model</th>
+                            <th>matricule</th>
+                            <th>proprietaire</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mybody">
+                        {% for entity in entities %}
+                            <tr id="{{entity.id}}">
+                                <td><a href="{{ path('voiture_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td class="photop" style="text-align: center;padding: 0px;" id="tooltip{{entity.id}}"> 
+
+                                    <img src="/symheritage/web/uploads/pieceJoin/{{entity.voituresphotos[0].id}}_{{entity.voituresphotos[0].url}}" style="width: 58px;height: 42px;"/>
+
+                                </td>
+                                <td class="marquev">{{ entity.marque }}</td>
+                                <td class="modelv">{{ entity.model }}</td>
+                                <td class="matriculev">{{ entity.matricule }}</td>
+                                <td class="proprietairev" value="{{ entity.personne.id }}">{{ entity.personne.nom }}</td>
+                                <td  style="text-align: center;">
+
+                                    <button title="supprimer" class="tooltipsupprimer" type="button" onclick="supprimer({{ entity.id }});" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span> 
+                                    </button>
+
+
+                                    <button type="button"  class="tooltipmodifier" onclick="modifier({{entity.id}});" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-edit" class="tooltip" title="modifier" ></span> 
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <ul id="pagination-demo" class="pagination-sm"></ul>
+        </div>
+        <div class="col-lg-5">
+            <div class="row">
+                <h1>Recherche</h1>
+                <form role="form">
+                    <div class="form-group input-group">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+              
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Panel title</h3>
+                        </div>
+                        <div class="panel-body">
+                            Panel content
+                        </div>
+                    </div>
+
+                
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+            $.ajax({
+                type: "POST",
+                url: "{{ path ('charger_voitureinfo')}}",
+                cache: false,
+                global: false,
+                beforeSend: function() {
+                    $('.bokeh').show();
+                },
+                success: function(json) {
+                    $.each(json, function(index, value)
+                    {
+                        val = "/symheritage/web/uploads/pieceJoin/" + value.idphoto + '_' + value.url;
+                        $('#tooltip' + value.id).tooltipster({content: $('<span style="width:20%;"><img src=' + val + ' style="width:200px;height:200px;"/></span>')});
+                    });
+
+
+                }
+            });
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('charger_proprietaire')}}",
+                        cache: false,
+                        global: false,
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            var myselect = '';
+                            $.each(json, function(index, value)
+                            {
+                                //console.log(value.id);
+                                myselect += '<option value=' + value.id + '>' + value.id + ' -> ' + value.nom + '</option>';
+                            });
+                            console.log(myselect);
+                            $('#proprietaire').append(myselect);
+                            $('.bokeh').hide();
+                            $('#btnmodal').hide();
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 5000);
+                        },
+                        error: function() {
+
+                        }
+                    });
+            $('#pagination-demo').twbsPagination({
+                totalPages:{{nbr}},
+                        visiblePages: 7,
+                onPageClick: function(event, page) {
+                    $.ajax(
+                            {
+                                type: "POST",
+                                url: "{{ path ('voiture_pagination')}}",
+                                cache: false,
+                                global: false,
+                                data: {'page': page},
+                                beforeSend: function() {
+                                    $('.bokeh').show();
+                                },
+                                success: function(json) {
+                                    myselect = '';
+                                    setTimeout(function() {
+                                        $('.modal-backdrop').css("display", "none");
+                                    }, 5000);
+                                    $('.bokeh').hide();
+                                    $('#mybody').html('');
+                                    $.each(json, function(index, value)
+                                    {
+
+                                        myselect += '<tr id=' + value.id + '>';
+                                        myselect += '<td><a href="#">' + value.id + '</a></td>';
+                                        myselect += '<td class="marquev">' + value.marque + '</td>';
+                                        myselect += '<td class="modelv">' + value.model + '</td>';
+                                        myselect += '<td class="matriculev">' + value.matricule + '</td>';
+                                        myselect += '<td class="proprietairev">' + value.proprietaire + '</td>';
+                                        myselect += '<td  style="text-align: center;">';
+                                        myselect += '<button title="supprimer" class="tooltipsupprimer" type="button" onclick="supprimer(' + value.id + ');" class="btn btn-default btn-sm">';
+                                        myselect += '<span class="glyphicon glyphicon-trash"></span>';
+                                        myselect += '</button>';
+                                        myselect += '<button type="button"  class="tooltipmodifier" onclick="modifier(' + value.id + ');" class="btn btn-default btn-sm">';
+                                        myselect += '<span class="glyphicon glyphicon-edit" class="tooltip" title="modifier" ></span>';
+                                        myselect += '</button>';
+                                        myselect += '</td></tr>';
+
+
+
+                                    });
+                                    $('#mybody').html(myselect);
+                                },
+                                error: function() {
+
+                                }
+                            });
+                }
+
+            });
+            $('.tooltipsupprimer').tooltipster({
+                content: $('<span>supprimer</span>')
+            });
+            $('.tooltipmodifier').tooltipster({
+                content: $('<span>Modifier</span>')
+            });
+            var rowCount = $('#table_voiture tr').length;
+            //var d=$('#tbody').is(':empty');
+
+            if (rowCount == 1) {
+                $('#table_voiture').css('display', 'none');
+                $('#toutsupprimer').fadeIn();
+            }
+            //alert(rowCount);
+        });
+        function supprimer(id)
+        {
+            $('#myModal').modal('show');
+            $('#myModal').attr('idvoiture', id);
+
+
+        }
+
+        function oksupprimer()
+        {
+            var id = $('#myModal').attr('idvoiture');
+            $('#myModal').modal('hide');
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('voiture_delete')}}",
+                        cache: false,
+                        global: false,
+                        data: {'id': id},
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            alertify.success("Supprimer avec succes");
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 5000);
+                            $('#' + id).remove();
+                            $('.bokeh').hide();
+                            var rowCount = $('#table_voiture tr').length;
+                            //var d=$('#tbody').is(':empty');
+
+                            if (rowCount == 1) {
+                                $('#table_voiture').css('display', 'none');
+                                $('#toutsupprimer').fadeIn();
+                            }
+                            //alert(rowCount);
+                        },
+                        error: function() {
+
+                        }
+                    });
+
+
+        }
+        function modifier(id)
+        {
+
+            $('#myModalmodifier').modal('show');
+            var marque = $('#' + id + '> td.marquev').text();
+            var model = $('#' + id + '> td.modelv').text();
+            var matricule = $('#' + id + '> .matriculev').text();
+            var proprietaire = $('#' + id + '> .proprietairev').text();
+            document.getElementById('marque').value = marque.trim();
+            document.getElementById('model').value = model.trim();
+            document.getElementById('matricule').value = matricule.trim();
+            document.getElementById('proprietaire').value = proprietaire.trim();
+            $('#myModalmodifier').attr('idmodiervoiture', id);
+
+        }
+
+        function okmodifier()
+        {
+            $("#myModalmodifier").modal('hide');
+            id = $('#myModalmodifier').attr('idmodiervoiture');
+            marque = $('#marque').val();
+            model = $('#model').val();
+            matricule = $('#matricule').val();
+            proprietaire = $('#proprietaire option:selected').attr('value');
+            proprietairetext = $('#proprietaire option:selected').text();
+            var arr = proprietairetext.split('->');
+            proprietairetext = arr[1].trim();
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('voiture_update')}}",
+                        cache: false,
+                        global: false,
+                        data: {'id': id, 'marque': marque, 'model': model, 'matricule': matricule, 'proprietaire': proprietaire},
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            alertify.success("modifier avec succes");
+                            $('.bokeh').hide();
+                            $('#btnmodal').hide();
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 2000);
+                            $('#' + id + '> td.marquev').text(marque);
+                            $('#' + id + '> td.modelv').text(model);
+                            $('#' + id + '> td.matriculev').text(matricule);
+                            $('#' + id + '> td.proprietairev').text(proprietairetext);
+
+                        },
+                        error: function() {
+
+                        }
+                    });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.tooltip').tooltipster({
+                contentAsHTML: true,
+                Default: false,
+                multiple: true
+            });
+        });
+    </script>
+{% endblock %}

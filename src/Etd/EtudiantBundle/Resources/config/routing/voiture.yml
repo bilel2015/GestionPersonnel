@@ -1,0 +1,46 @@
+voiture:
+    path:     /
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:index" }
+
+voiture_show:
+    path:     /{id}/show
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:show" }
+
+voiture_new:
+    path:     /newajax
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:newajax" }
+
+voiture_create:
+    path:     /create
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:create" }
+    requirements: { _method: post }
+
+voiture_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:edit" }
+
+voiture_update:
+    path:     /update
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:update" }
+    requirements: { _method: post|put }
+
+voiture_delete:
+    path:     /delete
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:delete" }
+    requirements: { _method: post|delete }
+voiture_pagination:
+    path:     /pagination
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:pagination" }
+    requirements: { _method: post}
+photovoiture_upload:
+    path:     /upload
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:upload" }
+    requirements: { _method: post }    
+supprimervoiture_photo:
+    path:     /supprimerphoto
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:supprimer" }
+    requirements: { _method: post }     
+charger_voitureinfo:
+    path:     /chargerinfovoiture
+    defaults: { _controller: "EtdEtudiantBundle:Voiture:charger" }
+    requirements: { _method: post}    

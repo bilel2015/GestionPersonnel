@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>driver</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="{{asset('fichiertemp/css/bootstrap.min.css')}}" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="{{asset('fichiertemp/css/sb-admin.css')}}" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="{{asset('fichiertemp/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+        <!-- include the core styles -->
+        <link rel="stylesheet" href="{{asset('fichiertemp/css/alertify.core.css')}}" />
+        <link rel="stylesheet" href="{{asset('fichiertemp/css/alertify.bootstrap.css')}}" />
+        <!-- include a theme, can be included into the core instead of 2 separate files -->
+        <link rel="stylesheet" href="{{asset('fichiertemp/css/alertify.default.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/tooltipster.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/dropzone.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/basic.css')}}" />
+        <!-- Add fancyBox main JS and CSS files -->
+
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/jquery.fancybox.css')}}" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/jquery.fancybox-thumbs.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{asset('fichiertemp/css/jquery.fancybox-buttons.css?v=1.0.5')}}" />
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style type="text/css">
+            .dz-default.dz-message {
+                color: #337ab7;;
+                font-size: 18px;
+            }
+
+            .fancybox-custom .fancybox-skin {
+                box-shadow: 0 0 50px #222;
+            }
+            .tooltip{
+                opacity: 1 !important;  
+            }
+            #fancybox-buttons.top {
+                top: 67px !important;
+            }
+
+        </style>
+        <style>
+
+            .alertify-logs {
+                top: 40px !important;
+                right: 10px !important;
+
+
+            }
+
+            .modal-footer{
+                padding: 7px 11px;
+                margin-top: -23px;
+            }
+            .alertify-log.alertify-log-error.alertify-log-show {
+                background: url('{{asset('img/erreur.png')}}') no-repeat 10px;
+                color: white !important;
+                background-color: rgba(189, 54, 47, 0.8) !important;
+                border-color: #eed3d7;
+                padding: 33px;
+                padding-left: 95px;
+                text-shadow: none;
+                width: 301px !important;
+
+            }
+
+
+            .alertify-log.alertify-log-show {
+                background: url('{{asset('assets/img/icon_Success.png')}}') no-repeat 10px;
+                color: white !important;
+                background-color: rgba(81, 163, 81, 0.8) !important;
+                border-color: #eed3d7;
+                padding: 33px;
+                padding-left: 95px;
+                text-shadow: none;
+                width: 301px !important;
+
+            }
+
+            .cadre{
+                border: 3px solid gray;
+            }
+
+            .bokeh span{
+                font-size: 18px !important;
+                height: 53px !important;
+                width: 148px !important;
+                display: block;
+                text-align: center;
+                margin-top: 103px;
+                margin-left: -61px;
+            }       
+            .bokeh {
+                font-size: 100px;
+                width: 1em;
+                height: 1em;
+                position: absolute;
+                /* margin: 100px auto; */
+                border-radius: 50% !important;
+                border: .01em solid rgba(150,150,150,0.1);
+                list-style: none;
+                margin-left: 45%;
+                margin-top: 18%;
+                z-index: 10;
+            }
+
+            .bokeh li {
+                position: absolute;
+                width: .2em;
+                height: .2em;
+                border-radius: 50% !important;
+            }
+
+            .bokeh li:nth-child(1) {
+                left: 50%;
+                top: 0;
+                margin: 0 0 0 -.1em;
+                background: #00C176;
+                -webkit-transform-origin: 50% 250%;
+                -moz-transform-origin: 50% 250%;
+                -ms-transform-origin: 50% 250%;
+                -o-transform-origin: 50% 250%;
+                transform-origin: 50% 250%;
+                -webkit-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -moz-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -ms-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -o-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+            }
+
+            .bokeh li:nth-child(2) {
+                top: 50%; 
+                right: 0;
+                margin: -.1em 0 0 0;
+                background: #FF003C;
+                -webkit-transform-origin: -150% 50%;
+                -moz-transform-origin: -150% 50%;
+                -ms-transform-origin: -150% 50%;
+                -o-transform-origin: -150% 50%;
+                transform-origin: -150% 50%;
+                -webkit-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -moz-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -ms-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -o-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+            }
+
+            .bokeh li:nth-child(3) {
+                left: 50%; 
+                bottom: 0;
+                margin: 0 0 0 -.1em;
+                background: #FABE28;
+                -webkit-transform-origin: 50% -150%;
+                -moz-transform-origin: 50% -150%;
+                -ms-transform-origin: 50% -150%;
+                -o-transform-origin: 50% -150%;
+                transform-origin: 50% -150%;
+                -webkit-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -moz-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -ms-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -o-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+            }
+
+            .bokeh li:nth-child(4) {
+                top: 50%; 
+                left:0;
+                margin: -.1em 0 0 0;
+                background: #88C100;
+                -webkit-transform-origin: 250% 50%;
+                -moz-transform-origin: 250% 50%;
+                -ms-transform-origin: 250% 50%;
+                -o-transform-origin: 250% 50%;
+                transform-origin: 250% 50%;
+                -webkit-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -moz-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -ms-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                -o-animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+                animation: 
+                    rota 2.13s linear infinite,
+                    opa 3.67s ease-in-out infinite alternate;
+            }
+
+
+            @-webkit-keyframes rota {
+                to { -webkit-transform: rotate(360deg); }
+            }
+
+            @-moz-keyframes rota {
+                to { -moz-transform: rotate(360deg); }
+            }
+
+            @-ms-keyframes rota {
+                to { -ms-transform: rotate(360deg); }
+            }
+
+            @-o-keyframes rota {
+                to { -o-transform: rotate(360deg); }
+            }
+
+            @keyframes rota {
+                to { transform: rotate(360deg); }
+            }
+
+            @-webkit-keyframes opa {
+                12.0% { opacity: 0.80; }
+                19.5% { opacity: 0.88; }
+                37.2% { opacity: 0.64; }
+                40.5% { opacity: 0.52; }
+                52.7% { opacity: 0.69; }
+                60.2% { opacity: 0.60; }
+                66.6% { opacity: 0.52; }
+                70.0% { opacity: 0.63; }
+                79.9% { opacity: 0.60; }
+                84.2% { opacity: 0.75; }
+                91.0% { opacity: 0.87; }
+            }
+
+            @-moz-keyframes opa {
+                12.0% { opacity: 0.80; }
+                19.5% { opacity: 0.88; }
+                37.2% { opacity: 0.64; }
+                40.5% { opacity: 0.52; }
+                52.7% { opacity: 0.69; }
+                60.2% { opacity: 0.60; }
+                66.6% { opacity: 0.52; }
+                70.0% { opacity: 0.63; }
+                79.9% { opacity: 0.60; }
+                84.2% { opacity: 0.75; }
+                91.0% { opacity: 0.87; }
+            }
+
+            @-ms-keyframes opa {
+                12.0% { opacity: 0.80; }
+                19.5% { opacity: 0.88; }
+                37.2% { opacity: 0.64; }
+                40.5% { opacity: 0.52; }
+                52.7% { opacity: 0.69; }
+                60.2% { opacity: 0.60; }
+                66.6% { opacity: 0.52; }
+                70.0% { opacity: 0.63; }
+                79.9% { opacity: 0.60; }
+                84.2% { opacity: 0.75; }
+                91.0% { opacity: 0.87; }
+            }
+
+            @-o-keyframes opa {
+                12.0% { opacity: 0.80; }
+                19.5% { opacity: 0.88; }
+                37.2% { opacity: 0.64; }
+                40.5% { opacity: 0.52; }
+                52.7% { opacity: 0.69; }
+                60.2% { opacity: 0.60; }
+                66.6% { opacity: 0.52; }
+                70.0% { opacity: 0.63; }
+                79.9% { opacity: 0.60; }
+                84.2% { opacity: 0.75; }
+                91.0% { opacity: 0.87; }
+            }
+
+            @keyframes opa {
+                12.0% { opacity: 0.80; }
+                19.5% { opacity: 0.88; }
+                37.2% { opacity: 0.64; }
+                40.5% { opacity: 0.52; }
+                52.7% { opacity: 0.69; }
+                60.2% { opacity: 0.60; }
+                66.6% { opacity: 0.52; }
+                70.0% { opacity: 0.63; }
+                79.9% { opacity: 0.60; }
+                84.2% { opacity: 0.75; }
+                91.0% { opacity: 0.87; }
+            }
+
+            /* code for animated blinking cursor */
+            .typed-cursor{
+                opacity: 1;
+                font-weight: 50;
+                -webkit-animation: blink 0.7s infinite;
+                -moz-animation: blink 0.7s infinite;
+                -ms-animation: blink 0.7s infinite;
+                -o-animation: blink 0.7s infinite;
+                animation: blink 0.7s infinite;
+            }
+            @-keyframes blink{
+                0% { opacity:1; }
+                50% { opacity:0; }
+                100% { opacity:1; }
+            }
+            @-webkit-keyframes blink{
+                0% { opacity:1; }
+                50% { opacity:0; }
+                100% { opacity:1; }
+            }
+            @-moz-keyframes blink{
+                0% { opacity:1; }
+                50% { opacity:0; }
+                100% { opacity:1; }
+            }
+            @-ms-keyframes blink{
+                0% { opacity:1; }
+                50% { opacity:0; }
+                100% { opacity:1; }
+            }
+            @-o-keyframes blink{
+                0% { opacity:1; }
+                50% { opacity:0; }
+                100% { opacity:1; }
+            }
+
+
+        </style>
+
+    </head>
+    <ul class="bokeh"   style="display:none">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <span>Veuillez patienter</span>    
+    </ul>
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{path('homepage')}}"><img  style="height: 33px;width: 144px;" src="{{asset('assets/img/lolo.png')}}"></a>
+                </div>
+                <!-- Top Menu Items -->
+                <ul class="nav navbar-right top-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                        <ul class="dropdown-menu message-dropdown">
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><strong>Zaid Ait friha</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><strong>Zaid Ait Friha</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <div class="media">
+                                        <span class="pull-left">
+                                            <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        </span>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><strong>Zaid Ait Friha</strong>
+                                            </h5>
+                                            <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="message-footer">
+                                <a href="#">Read All New Messages</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                        <ul class="dropdown-menu alert-dropdown">
+                            <li>
+                                <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                            </li>
+                            <li>
+                                <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">View All</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Zaid Ait Friha <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-power-off"></i>Se déconnecter</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav side-nav">
+                        <li {% if app.request.attributes.get('_route')=='homepage' %} class="active" {% endif %}>
+                            <a href="{{path('homepage')}}"><i class="glyphicon glyphicon-home"></i>&nbsp; Accueil</a>
+                        </li>
+                        <li {% if app.request.attributes.get('_route')=='personne_new' %} class="active" {% endif %}>
+                            <a href="{{path('personne_new')}}"> <i class="glyphicon glyphicon-plus"></i>&nbsp; Ajouter une personne</a>
+                        </li>
+                        <li {% if app.request.attributes.get('_route')=='personne' %} class="active" {% endif %}>
+                            <a href="{{path('personne')}}"><i class="glyphicon glyphicon-user"></i>&nbsp; Personnes</a>
+                        </li>
+                        <li {% if app.request.attributes.get('_route')=='voiture_new' %} class="active" {% endif %}>
+                            <a href="{{path('voiture_new')}}"> <i class="glyphicon glyphicon-plus"></i></i> &nbsp;Ajouter une voiture</a>
+                        </li>
+                        <li {% if app.request.attributes.get('_route')=='voiture' %} class="active" {% endif %}>
+                            <a href="{{path('voiture')}}"><i class="glyphicon glyphicon-bed"></i>&nbsp; Voitures</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+
+            <div id="page-wrapper">
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    {% block PageHeading %}
+
+                    {% endblock %}
+                    <!-- /.row -->
+                    {% block body -%}
+                    {% endblock %}
+
+                    <!-- /.row -->
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- /#page-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- jQuery -->
+        <script src="{{asset('fichiertemp/js/jquery.js')}}"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{asset('fichiertemp/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('fichiertemp/js/alertify.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('fichiertemp/js/jquery.tooltipster.min.js')}}"></script>
+        <script src="{{asset('fichiertemp/js/plugins/morris/raphael.min.js')}}"></script>
+        <!--script src="{{asset('fichiertemp/js/plugins/morris/morris.min.js')}}"></script-->
+        <!--script src="{{asset('fichiertemp/js/plugins/morris/morris-data.js')}}"></script-->
+        <!--pagination-->
+        <script src="{{asset('fichiertemp/js/pagination/jquery.twbsPagination.js')}}"></script>
+        <script src="{{asset('fichiertemp/js/pagination/jquery.twbsPagination.min.js')}}"></script>
+        <script src="{{asset('fichiertemp/js/dropzone/dropzone.js')}}"></script>
+        <script type="text/javascript" src="{{asset('fichiertemp/js/fancybox/jquery.fancybox.js')}}"></script>
+        <script type="text/javascript" src="{{asset('fichiertemp/js/fancybox/jquery.fancybox-buttons.js')}}"></script> 
+        <script type="text/javascript" src="{{asset('fichiertemp/js/fancybox/jquery.fancybox-thumbs.js')}}"></script>
+        <script type="text/javascript" src="{{asset('fichiertemp/js/cutetime/jquery.cuteTime.js')}}"></script>
+        <script type="text/javascript" src="{{asset('fichiertemp/js/color/jquery.color.min.js')}}"></script>
+        {% block script %}
+            <script>
+                jQuery(document).ready(function() {
+                    $('.tooltip').tooltipster();
+                    $('.bokeh').bind("ajaxSend", function() {
+                        $('.body').css('opacity', '0.5');
+                        $(this).show();
+                    }).bind("ajaxComplete", function() {
+                        $('body').css('opacity', '1');
+                        $(this).fadeOut('slow');
+                        $('.tooltips ').tooltip();
+                        $('.popovers').popover();
+                        //  $('.dropdown-toggle').dropdownHover().dropdown();
+                    });
+                });
+                $(document).ready(function() {
+                    /*
+                     *  Simple image gallery. Uses default settings
+                     */
+
+                    $('.fancybox').fancybox();
+
+                    /*
+                     *  Different effects
+                     */
+
+                    // Change title type, overlay closing speed
+                    $(".fancybox-effects-a").fancybox({
+                        helpers: {
+                            title: {
+                                type: 'outside'
+                            },
+                            overlay: {
+                                speedOut: 0
+                            }
+                        }
+                    });
+
+                    // Disable opening and closing animations, change title type
+                    $(".fancybox-effects-b").fancybox({
+                        openEffect: 'none',
+                        closeEffect: 'none',
+                        helpers: {
+                            title: {
+                                type: 'over'
+                            }
+                        }
+                    });
+
+                    // Set custom style, close if clicked, change title type and overlay color
+                    $(".fancybox-effects-c").fancybox({
+                        wrapCSS: 'fancybox-custom',
+                        closeClick: true,
+                        openEffect: 'none',
+                        helpers: {
+                            title: {
+                                type: 'inside'
+                            },
+                            overlay: {
+                                css: {
+                                    'background': 'rgba(238,238,238,0.85)'
+                                }
+                            }
+                        }
+                    });
+
+                    // Remove padding, set opening and closing animations, close if clicked and disable overlay
+                    $(".fancybox-effects-d").fancybox({
+                        padding: 0,
+                        openEffect: 'elastic',
+                        openSpeed: 150,
+                        closeEffect: 'elastic',
+                        closeSpeed: 150,
+                        closeClick: true,
+                        helpers: {
+                            overlay: null
+                        }
+                    });
+
+                    /*
+                     *  Button helper. Disable animations, hide close button, change title type and content
+                     */
+
+                    $('.fancybox-buttons').fancybox({
+                        openEffect: 'none',
+                        closeEffect: 'none',
+                        prevEffect: 'none',
+                        nextEffect: 'none',
+                        closeBtn: false,
+                        helpers: {
+                            title: {
+                                type: 'inside'
+                            },
+                            buttons: {}
+                        },
+                        afterLoad: function() {
+                            this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+                        }
+                    });
+
+
+                    /*
+                     *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+                     */
+
+                    $('.fancybox-thumbs').fancybox({
+                        prevEffect: 'none',
+                        nextEffect: 'none',
+                        closeBtn: false,
+                        arrows: false,
+                        nextClick: true,
+                        helpers: {
+                            thumbs: {
+                                width: 50,
+                                height: 50
+                            }
+                        }
+                    });
+
+                    /*
+                     *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+                     */
+                    $('.fancybox-media')
+                            .attr('rel', 'media-gallery')
+                            .fancybox({
+                                openEffect: 'none',
+                                closeEffect: 'none',
+                                prevEffect: 'none',
+                                nextEffect: 'none',
+                                arrows: false,
+                                helpers: {
+                                    media: {},
+                                    buttons: {}
+                                }
+                            });
+
+                    /*
+                     *  Open manually
+                     */
+
+                    $("#fancybox-manual-a").click(function() {
+                        $.fancybox.open('1_b.jpg');
+                    });
+
+                    $("#fancybox-manual-b").click(function() {
+                        $.fancybox.open({
+                            href: 'iframe.html',
+                            type: 'iframe',
+                            padding: 5
+                        });
+                    });
+
+                    $("#fancybox-manual-c").click(function() {
+                        $.fancybox.open([
+                            {
+                                href: '1_b.jpg',
+                                title: 'My title'
+                            }, {
+                                href: '2_b.jpg',
+                                title: '2nd title'
+                            }, {
+                                href: '3_b.jpg'
+                            }
+                        ], {
+                            helpers: {
+                                thumbs: {
+                                    width: 75,
+                                    height: 50
+                                }
+                            }
+                        });
+                    });
+
+
+                });
+            </script>
+
+        {% endblock %}
+    </body>
+
+</html>

@@ -1,0 +1,53 @@
+personne:
+    path:     /
+    defaults: { _controller: "EtdEtudiantBundle:Personne:index" }
+
+personne_show:
+    path:     /{id}/show
+    defaults: { _controller: "EtdEtudiantBundle:Personne:show" }
+
+personne_new:
+    path:     /newajax
+    defaults: { _controller: "EtdEtudiantBundle:Personne:newajax" }
+
+personne_create:
+    path:     /create
+    defaults: { _controller: "EtdEtudiantBundle:Personne:createajx" }
+    requirements: { _method: post }
+personne_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EtdEtudiantBundle:Personne:edit" }
+
+personne_update:
+    path:     /update
+    defaults: { _controller: "EtdEtudiantBundle:Personne:update" }
+    requirements: { _method: post|put }
+
+personne_delete:
+    path:     /delete
+    defaults: { _controller: "EtdEtudiantBundle:Personne:delete" }
+    requirements: { _method: post|delete }
+charger_proprietaire:
+    path:     /chargerproprietaire
+    defaults: { _controller: "EtdEtudiantBundle:Personne:charger" }
+    requirements: { _method: post}
+personne_pagination:   
+    path:     /pagination
+    defaults: { _controller: "EtdEtudiantBundle:Personne:pagination" }
+    requirements: { _method: post}
+photo_upload:
+    path:     /upload
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:upload" }
+    requirements: { _method: post }    
+supprimer_photo:
+    path:     /supprimerphoto
+    defaults: { _controller: "EtdEtudiantBundle:Photopersonne:supprimer" }
+    requirements: { _method: post }     
+charger_infopersonne:   
+    path:     /infotooltip
+    defaults: { _controller: "EtdEtudiantBundle:Personne:infotooltip" }
+    requirements: { _method: post}
+personne_chercher:   
+    path:     /chercher
+    defaults: { _controller: "EtdEtudiantBundle:Personne:chercher" }
+    requirements: { _method: post}    

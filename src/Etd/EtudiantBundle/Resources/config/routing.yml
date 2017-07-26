@@ -1,0 +1,19 @@
+etd_etudiant_photovoiture:
+    resource: "@EtdEtudiantBundle/Resources/config/routing/photovoiture.yml"
+    prefix:   /photovoiture
+
+etd_etudiant_photo:
+    resource: "@EtdEtudiantBundle/Resources/config/routing/Photopersonne.yml"
+    prefix:   /photo
+
+etd_etudiant_voiture:
+    resource: "@EtdEtudiantBundle/Resources/config/routing/voiture.yml"
+    prefix:   /voiture
+
+etd_etudiant_personne:
+    resource: "@EtdEtudiantBundle/Resources/config/routing/personne.yml"
+    prefix:   /personne
+
+homepage:
+    path:     /
+    defaults: { _controller: EtdEtudiantBundle:Generale:index }

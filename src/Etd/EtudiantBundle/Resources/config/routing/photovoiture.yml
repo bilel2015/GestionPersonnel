@@ -1,0 +1,30 @@
+photovoiture:
+    path:     /
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:index" }
+
+photovoiture_show:
+    path:     /{id}/show
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:show" }
+
+photovoiture_new:
+    path:     /new
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:new" }
+
+photovoiture_create:
+    path:     /create
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:create" }
+    requirements: { _method: post }
+
+photovoiture_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:edit" }
+
+photovoiture_update:
+    path:     /{id}/update
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:update" }
+    requirements: { _method: post|put }
+
+photovoiture_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EtdEtudiantBundle:Photovoiture:delete" }
+    requirements: { _method: post|delete }

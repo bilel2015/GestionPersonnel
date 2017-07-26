@@ -1,0 +1,28 @@
+<tbody id="mybody">
+    {% for entity in entities %}
+        <tr id="{{entity.id}}">
+            <td><a href="{{ path('personne_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td class="photop" style="text-align: center;padding: 0px;" id="tooltip{{entity.id}}"> 
+
+                <img src="/symheritage/web/uploads/pieceJoin/{{entity.photos[1].id}}_{{entity.photos[1].url}}" style="width: 58px;height: 42px;"/>
+
+            </td>
+            <td class="nomp"><a href="{{path('personne_show',{'id':entity.id})}}">{{ entity.nom }}</a></td>
+            <td class="prenomp"><a href="{{path('personne_show',{'id':entity.id})}}">{{ entity.prenom }}</a></td>
+            <td class="cnep">{{ entity.cne }}</td>
+            <td class="agep">{{ entity.age }}</td>
+            <td class="fonctionp">{{ entity.fonction }}</td>
+            <td  style="text-align: center;" >
+
+                <button title="supprimer" class="tooltipsupprimer" type="button" onclick="supprimer({{ entity.id }});" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> 
+                </button>
+
+
+                <button type="button"  class="tooltipmodifier" onclick="modifier({{entity.id}});" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-edit" class="tooltip" title="modifier" ></span> 
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>

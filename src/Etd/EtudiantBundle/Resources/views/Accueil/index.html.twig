@@ -1,0 +1,246 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+    <!-- Modal -->
+
+
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ total }}</div>
+                                    <div>personnes</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{path('personne')}}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Voir les détails</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-bed fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ voitures }}</div>
+                                    <div>Voitures</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{path('voiture')}}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Voir les détails</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <!-- <i class="fa fa-comments fa-5x"></i>-->
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <!-- <div class="huge">26</div>-->
+                                    <div>nouvelles Personnes</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{path('personne')}}">
+                            <div class="panel-footer">
+                                 <div class="row" style="text-align: center;">
+                                {% for entity in entities %}
+                                    <img src="/symheritage/web/uploads/pieceJoin/{{entity.photos[0].id}}_{{entity.photos[0].url}}" style="width: 58px;height: 42px; border-radius: 2px;"/>
+                                {% endfor %}
+                                </div>
+                                 <div class="row">
+                                <span class="pull-left" style="margin-left: 13px;">Voir les détails</span>
+                                <span class="pull-right" style="margin-right: 13px;"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <!--<i class="fa fa-shopping-cart fa-5x"></i>-->
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <!-- <div class="huge">26</div>-->
+                                    <div>Nouvelles Voitures</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{path('voiture')}}">
+                            <div class="panel-footer">
+                                <div class="panel-footer">
+                                    <div class="row" style="text-align: center;">
+                                    {% for entity in listevoitures %}
+                                        <img src="/symheritage/web/uploads/pieceJoin/{{entity.voituresphotos[0].id}}_{{entity.voituresphotos[0].url}}" style="width: 58px;height: 42px;border-radius: 2px;"/>
+                                    {% endfor %}
+                                    </div>
+                                     <div class="row">
+                                    <span class="pull-left">Voir les détails</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Panneau Tâches</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+
+                        {% for entity in entities %}
+                            <a href="#" class="list-group-item">
+                                <span class="badge"><div class="timestamp2">  
+                                        {{ entity.dateajout}} 
+                                    </div></span>
+                                <i class="fa fa-fw fa-user"></i> {{ entity.nom}} {{ entity.prenom}} à été ajouté 
+
+                            </a>
+                        {% endfor %}
+
+                    </div>
+                    <div class="text-right">
+                        <a href="#">Voire toutes les activités  <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //////////// FRENCH ///////////////////
+            var french = {
+                time_ranges: [
+                    {bound: Number.NEGATIVE_INFINITY,
+                        cuteness: 'le futur!', unit_size: 0},
+                    {bound: 0,
+                        cuteness: 'maintenant', unit_size: 0},
+                    {bound: 20 * 1000,
+                        cuteness: 'il y a quelques secondes', unit_size: 0},
+                    {bound: 60 * 1000,
+                        cuteness: 'il y a une minute', unit_size: 0},
+                    {bound: 60 * 1000 * 2,
+                        cuteness: 'il y a %CT% minutes', unit_size: 60 * 1000},
+                    {bound: 60 * 1000 * 60,
+                        cuteness: 'il y a une heure', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 2,
+                        cuteness: 'il y a %CT% heures', unit_size: 60 * 1000 * 60},
+                    {bound: 60 * 1000 * 60 * 24,
+                        cuteness: 'hier', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 2,
+                        cuteness: 'il y a %CT% jours', unit_size: 60 * 1000 * 60 * 24},
+                    {bound: 60 * 1000 * 60 * 24 * 30,
+                        cuteness: 'le mois dernier', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 2,
+                        cuteness: 'il y a %CT% mois', unit_size: 60 * 1000 * 60 * 24 * 30},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 12,
+                        cuteness: 'l\'ann&eacute;e derni&egrave;re', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 12 * 2,
+                        cuteness: 'il y a %CT% ans', unit_size: 60 * 1000 * 60 * 24 * 30 * 12},
+                    {bound: Number.POSITIVE_INFINITY,
+                        cuteness: 'il y a tr&egrave;s longtemps', unit_size: 0}
+                ]
+            };
+
+            $('.timestamp2').cuteTime(french);
+
+            // returns a cuter string of the passed in datetime
+            $('.predetermined2').html(" -> " + $.cuteTime(french, '2009/10/16 22:11:19'));
+            $('.predetermined11').html(" -> " + $.cuteTime(french, '2009'));
+            $('.predetermined12').html(" -> " + $.cuteTime(french, '2009-11'));
+            $('.predetermined13').html(" -> " + $.cuteTime(french, '2009-11-16'));
+            $('.predetermined14').html(" -> " + $.cuteTime(french, '2009-11-24T19:20+01:00'));
+            $('.predetermined15').html(" -> " + $.cuteTime(french, '2009-11-24T19:20:30+01:00'));
+            $('.predetermined151').html(" -> " + $.cuteTime(french, '2009-11-249T19:20:30+01:00'));
+            $('.predetermined16').html(" -> " + $.cuteTime(french, '2009-11-24T19:20:30.45+01:00'));
+            $('.predetermined17').html(" === " + $.cuteTime(french, '2009-11-24T08:15:30-05:00'));
+            $('.predetermined18').html(" === " + $.cuteTime(french, '2009-11-24T13:15:30Z'));
+
+            var french_refresh = {
+                time_ranges: [
+                    {bound: Number.NEGATIVE_INFINITY,
+                        cuteness: 'le futur!', unit_size: 0},
+                    {bound: 0,
+                        cuteness: 'maintenant', unit_size: 0},
+                    {bound: 20 * 1000,
+                        cuteness: 'il y a quelques secondes', unit_size: 0},
+                    {bound: 60 * 1000,
+                        cuteness: 'il y a une minute', unit_size: 0},
+                    {bound: 60 * 1000 * 2,
+                        cuteness: 'il y a %CT% minutes', unit_size: 60 * 1000},
+                    {bound: 60 * 1000 * 60,
+                        cuteness: 'il y a une heure', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 2,
+                        cuteness: 'il y a %CT% heures', unit_size: 60 * 1000 * 60},
+                    {bound: 60 * 1000 * 60 * 24,
+                        cuteness: 'hier', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 2,
+                        cuteness: 'il y a %CT% jours', unit_size: 60 * 1000 * 60 * 24},
+                    {bound: 60 * 1000 * 60 * 24 * 30,
+                        cuteness: 'le mois dernier', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 2,
+                        cuteness: 'il y a %CT% mois', unit_size: 60 * 1000 * 60 * 24 * 30},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 12,
+                        cuteness: 'l\'ann&eacute;e derni&egrave;re', unit_size: 0},
+                    {bound: 60 * 1000 * 60 * 24 * 30 * 12 * 2,
+                        cuteness: 'il y a %CT% ans', unit_size: 60 * 1000 * 60 * 24 * 30 * 12},
+                    {bound: Number.POSITIVE_INFINITY,
+                        cuteness: 'il y a tr&egrave;s longtemps', unit_size: 0}
+                ],
+                refresh: 10000
+            };
+
+            my_cutetime2 = $('.timestamp_move2').cuteTime(french_refresh);
+        });
+    </script>  
+{% endblock %}

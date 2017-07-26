@@ -1,0 +1,281 @@
+{% extends '::layout.html.twig' %}
+{% block PageHeading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Ajouter une personne
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                </li>
+                <li class="active">
+                    <i class="fa fa-table"></i> Ajouter une personne
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+{% block body -%}
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="nom">Nom:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nom" placeholder="Enter Nom">
+                    <p class="help-block" style="display: none;" id="helpnom">Ajouter votre nom.</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="prenom">Prenom:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="prenom" placeholder="Enter Prénom">
+                    <p class="help-block" style="display: none;" id="helpprenom">Ajouter votre prenom.</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="fonction">Fonction:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="fonction" placeholder="Enter Prénom">
+                    <p class="help-block" style="display: none;" id="helpfonction">Ajouter votre fonction.</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="gae">Age:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="age" placeholder="Enter Age" id="helpgae">
+                    <p class="help-block" style="display: none;" id='helpage'>Ajouter votre age.</p>
+                </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="gae">Ajoutes des Photos</label>
+                <div class="col-sm-10">
+                    <form action="{{ path ('photo_upload')}}"  class="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple id='dropzone'/>
+                        </div>
+                    </form>
+                </div>
+            </div><br><br><br><br><br><br><br><br>
+            <div class="modal-footer">
+                <button class="btn btn-default" onclick="annuler();">Annuler</button>
+                <button class="btn btn-primary" onclick="enregistrer();">Ajouter</button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>Panneau des taches</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+
+                        <a href="#" class="list-group-item">
+                            <span class="badge">1 hour ago</span>
+                            <i class="fa fa-fw fa-user"></i> Un nouvel utilisateur a été ajouté
+                        </a>
+
+                    </div>
+                    <div class="text-right">
+                        <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="alert alert-success">
+                        <strong>Ajouter avec succes!</strong> You successfully read this important alert message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+            // "myAwesomeDropzone" is the camelized version of the HTML element's ID
+            Dropzone.options.dropzone = {
+                paramName: "file", // The name that will be used to transfer the file
+                maxFilesize: 2, // MB
+                accept: function(file, done) {
+                    if (file.name == "justinbieber.jpg") {
+                        done("Naha, you don't.");
+                    }
+                    else {
+                        done();
+                    }
+                }
+            };
+
+            $(".dz-remove").on("click", function(e) {
+                alert('zaid');
+            });
+
+
+            $('#nom').keyup(function() {
+                if ($('#nom').val().length < 3)
+                {
+                    $('#nom').parent().removeClass('has-success');
+                    $('#nom').parent().addClass('has-error');
+                    $('#helpnom').fadeIn();
+                    //$('#divnom .icon-ok').fadeOut();
+                    //$('#msgnom').fadeIn();
+                }
+                else {
+                    $('#nom').parent().removeClass('has-error');
+                    $('#nom').parent().addClass('has-success');
+                    $('#helpnom').fadeOut();
+
+                    //$('#msgnom').fadeOut();
+                }
+            });
+            $('#prenom').keyup(function() {
+                if ($('#prenom').val().length < 3)
+                {
+                    $('#prenom').parent().removeClass('has-success');
+                    $('#prenom').parent().addClass('has-error');
+                    $('#helpprenom').fadeIn();
+                    //$('#divnom .icon-ok').fadeOut();
+                    //$('#msgnom').fadeIn();
+                }
+                else {
+                    $('#prenom').parent().removeClass('has-error');
+                    $('#prenom').parent().addClass('has-success');
+                    $('#helpprenom').fadeOut();
+                    //$('#divnom .icon-ok').fadeIn();
+                    //$('#msgnom').fadeOut();
+                }
+            });
+            $('#fonction').keyup(function() {
+                if ($('#fonction').val().length < 3)
+                {
+                    $('#fonction').parent().removeClass('has-success');
+                    $('#fonction').parent().addClass('has-error');
+                    $('#helpfonction').fadeIn();
+                    //$('#divnom .icon-ok').fadeOut();
+                    //$('#msgnom').fadeIn();
+                }
+                else {
+                    $('#fonction').parent().removeClass('has-error');
+                    $('#fonction').parent().addClass('has-success');
+                    $('#helpfonction').fadeOut();
+                    //$('#divnom .icon-ok').fadeIn();
+                    //$('#msgnom').fadeOut();
+                }
+            });
+            $('#age').keyup(function() {
+                if ($('#age').val() < 0)
+                {
+                    $('#age').parent().removeClass('has-success');
+                    $('#age').parent().addClass('has-error');
+                    $('#helpage').fadeIn();
+                    //$('#divnom .icon-ok').fadeOut();
+                    //$('#msgnom').fadeIn();
+                }
+                else {
+                    $('#age').parent().removeClass('has-error');
+                    $('#age').parent().addClass('has-success');
+                    $('#helpage').fadeOut();
+                    //$('#divnom .icon-ok').fadeIn();
+                    //$('#msgnom').fadeOut();
+                }
+            });
+
+        });
+
+        function enregistrer()
+        {
+            erreur = true;
+            nom = $('#nom').val();
+            prenom = $('#prenom').val();
+            age = $('#age').val();
+            fonction = $('#fonction').val();
+
+            if (nom.length <= 3)
+            {
+                $('#nom').parent().addClass('has-error');
+                $('#helpnom').fadeIn();
+                erreur = false;
+            }
+
+            if (prenom.length <= 3)
+            {
+                $('#prenom').parent().addClass('has-error');
+                $('#helpprenom').fadeIn();
+                erreur = false;
+            }
+            if (fonction.length <= 3)
+            {
+                $('#fonction').parent().addClass('has-error');
+                $('#helpfonction').fadeIn();
+                erreur = false;
+            }
+            if (age == 0)
+            {
+                $('#age').parent().addClass('has-error');
+                $('#helpage').fadeIn();
+                erreur = false;
+            }
+            if (erreur == false)
+            {
+                return false;
+            }
+            else
+            {
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{{ path ('personne_create')}}",
+                            cache: false,
+                            global: false,
+                            data: {'nom': nom, 'prenom': prenom, 'age': age, 'fonction': fonction},
+                            beforeSend: function() {
+                                $('.bokeh').show();
+                            },
+                            success: function(json) {
+                                alertify.success("Ajouter avec succes");
+                                $('.bokeh').hide();
+                                $('#btnmodal').hide();
+
+                                // $('#myModal').modal('show');
+                                setTimeout(function() {
+                                    // $("#myModal").hide();
+                                    $('.modal-backdrop').css("display", "none");
+                                }, 5000);
+                            },
+                            error: function() {
+
+                            }
+                        });
+            }
+
+        }
+        function   annuler()
+        {
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('fonction').value = '';
+        }
+        /*$('#myDropzone').on("complete", function(file) {
+         myDropzone.removeFile(file);
+         
+         });*/
+        // "myAwesomeDropzone" is the camelized version of the HTML element's ID
+
+    </script>
+{% endblock %}

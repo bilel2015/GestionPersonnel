@@ -1,0 +1,178 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalmodifier" idmodierpersonne='' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de modifier</h4>
+                </div>
+                <div class="modal-body"  style="padding-bottom: 80px;">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nom">Nom:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nom" placeholder="Enter Nom">
+                            <p class="help-block" style="display: none;">Ajouter votre nom.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="prenom">Prenom:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="prenom" placeholder="Enter Prénom">
+                            <p class="help-block" style="display: none;">Ajouter votre prenom.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="fonction">Fonction:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="fonction" placeholder="Enter Prénom">
+                            <p class="help-block" style="display: none;">Ajouter votre fonction.</p>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="gae">Age:</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="age" placeholder="Enter Age">
+                            <p class="help-block" style="display: none;">Ajouter votre age.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="okmodifier();">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" idpersonne="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">vous êtes sur le point de supprimer</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom: 36px;">
+                    Vous voullez vraimment supprimer cette personne ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="oksupprimer();">Ok supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-lg-8">
+            <div class="row" style="background: whitesmoke;">
+                <div class="col-lg-12">
+                    <div class="row" >
+                        <div class="col-lg-4">
+                            <a class="fancybox-thumbs" data-fancybox-group="thumb" href="/symheritage/web/uploads/pieceJoin/{{entity.photos[0].id}}_{{entity.photos[0].url}}"><img src="/symheritage/web/uploads/pieceJoin/{{entity.photos[1].id}}_{{entity.photos[1].url}}" alt="" style="width:214px;height: 235px;"/></a>
+                            <a class="fancybox-thumbs" data-fancybox-group="thumb" href="/symheritage/web/uploads/pieceJoin/{{entity.photos[1].id}}_{{entity.photos[1].url}}"><img src="/symheritage/web/uploads/pieceJoin/{{entity.photos[0].id}}_{{entity.photos[0].url}}" alt="" style="  width: 24px;display: none;"/></a>
+                        </div>
+                        <div class="col-lg-8" >
+                            <div class="row">
+                                <div class="col-lg-3">Nom</div>
+                                <div class="col-lg-9">{{entity.nom}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">Prenom</div>
+                                <div class="col-lg-9">{{entity.Prenom}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">Fonction</div>
+                                <div class="col-lg-9">{{entity.fonction}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">Age</div>
+                                <div class="col-lg-9">{{entity.age}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">bibliographie</div>
+                                <div class="col-lg-9">Pour ceux qui se poseraient tout de même la question de
+                                    ce qui se passe dans cette fameuse feuille de style CSS, Google analyse quel 
+                                    navigateur est utilisé par l’utilisateur, et renvoie le code CSS qui fonctionne
+                                    le mieux pour ce navigateur. Et ce code CSS est composé d’un simple @font-face !</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ses voitures</h3>
+                </div>
+              {# voiture à deux images #}
+                <div class="panel-body">
+                    {% set i = 0 %}
+                    {% for ph in voitures %}
+                        {% for i in 0..1 %}
+                        <a class="fancybox-button" rel="fancybox-button" href="/symheritage/web/uploads/pieceJoin/{{ ph.getVoituresphotos[i].id  }}_{{ ph.getVoituresphotos[i].url  }}" title="{{ph.marque}}  ({{ ph.model  }})">
+                            <img src="/symheritage/web/uploads/pieceJoin/{{ ph.getVoituresphotos[i].id  }}_{{ ph.getVoituresphotos[i].url  }}" alt="" style="  width: 150px;padding: 0px;  height: 120px;"/>
+                        </a>
+              
+                          {% set i = i + 1 %}
+                      {% endfor %}
+                      
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+            /*
+			 *  Button helper. Disable animations, hide close button, change title type and content
+			 */
+
+			$('.fancybox-buttons').fancybox({
+				openEffect  : 'none',
+				closeEffect : 'none',
+
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					buttons	: {}
+				},
+
+				afterLoad : function() {
+					this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+				}
+			});
+            $(".fancybox-button").fancybox({
+		prevEffect		: 'none',
+		nextEffect		: 'none',
+		closeBtn		: false,
+		helpers		: {
+			title	: { type : 'inside' },
+			buttons	: {}
+		}
+	});
+
+        });
+    </script>
+{% endblock %}

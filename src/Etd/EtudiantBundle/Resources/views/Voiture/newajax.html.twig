@@ -1,0 +1,253 @@
+{% extends '::layout.html.twig' %}
+{% block PageHeading %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Ajouter une Voiture
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{path('homepage')}}"><i class="glyphicon glyphicon-home"></i>&nbsp; Accueil</a>
+                </li>
+                <li class="active">
+                    <i class="glyphicon glyphicon-plus"></i> Ajouter une voiture
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+{% block body -%}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="marque">Marque:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="marque" placeholder="Enter la marque">
+                        <p class="help-block" style="display: none;">Ajouter votre Marque.</p>
+                    </div>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="model">Model:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="model" placeholder="Enter le model">
+                        <p class="help-block" style="display: none;">Ajouter votre Model.</p>
+                    </div>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="matricule">Matricule:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="matricule" placeholder="Enter le matricule">
+                        <p class="help-block" style="display: none;">Ajouter votre Matricule.</p>
+                    </div>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="proprietaire">Propriétaire:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="proprietaire"></select>
+                    </div>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="gae">Ajoutes des Photos</label>
+                    <div class="col-sm-10">
+                        <form action="{{path('photovoiture_upload')}}" class="dropzone" id="myAwesomeDropzone">
+                        </form>
+                    </div>
+                </div>
+            </div> 
+            <div class="row" style="  margin-top: 40px;">
+                <div class="modal-footer">
+                    <button class="btn btn-default" onclick="annuler();">Annuler</button>
+                    <button class="btn btn-primary" onclick="enregistrer();">Ajouter</button>
+                </div>
+            </div> 
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i>panneau des taches</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+
+                        <a href="#" class="list-group-item">
+                            <span class="badge">1 hour ago</span>
+                            <i class="fa fa-fw fa-user"></i> Un nouvelle voiture a été ajoutée
+                        </a>
+
+                    </div>
+                    <div class="text-right">
+                        <a href="#">Voir toutes les activités<i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="moodale"  lien ="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!-- <h4 class="modal-title" id="myModalLabel">quitter</h4>-->
+                </div>
+                <div class="modal-body" style="padding-bottom: 36px;">
+                    Vous voullez vraimment quitter cette page ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+
+                    <button type="button" class="btn btn-primary" onclick="okquitter();">  <i class="glyphicon glyphicon-hand-right"></i> Quitter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="alert alert-success">
+                        <strong>Ajouter avec succes!</strong> You successfully read this important alert message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{parent()}}
+    <script>
+        $(document).ready(function()
+        {
+            var lien = '';
+            $('a').click(function() {
+                lien = $(this).attr('href');
+                $('#moodale').modal('show');
+                $('#moodale').attr('lien', lien);
+                return false;
+            });
+            Dropzone.autoDiscover = false;
+
+            var dropzone = new Dropzone("#myAwesomeDropzone", {
+                maxFilesize: 256, // Set the maximum file size to 256 MB
+                autoProcessQueue: true,
+                addRemoveLinks: true // Don't show remove links on dropzone itself.
+            });
+
+            dropzone.on("removedfile", function(file) {
+                alert(file.name);
+
+                $.ajax({
+                    url: "{{path('supprimervoiture_photo')}}",
+                    type: "POST",
+                    data: {'file': file.name}
+                });
+            });
+
+
+            dropzone.on("addedfile", function(file) {
+
+            });
+
+            dropzone.on("success", function(file) {
+
+            });
+            //$('#Proprietaire')
+            // <select class="form-control"><option>1</option></select>
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('charger_proprietaire')}}",
+                        cache: false,
+                        global: false,
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            var myselect = '';
+                            $.each(json, function(index, value)
+                            {
+                                //console.log(value.id);
+                                myselect += '<option>' + value.id + ' -> ' + value.nom + '</option>';
+                            });
+                            console.log(myselect);
+                            $('#proprietaire').append(myselect);
+                            $('.bokeh').hide();
+                            $('#btnmodal').hide();
+                            setTimeout(function() {
+                                $('.modal-backdrop').css("display", "none");
+                            }, 5000);
+                        },
+                        error: function() {
+
+                        }
+                    });
+        });
+        function  okquitter()
+        {
+            var lien = $('#moodale').attr('lien');
+            $('#moodale').modal('show');
+            window.location.href = lien;
+        }
+        function enregistrer()
+        {
+            var files = {};
+            $(".dz-filename span").each(function(index) {
+                files[index] = {idFile: '', nameFile: $(this).text(), size: ''};
+            })
+            $(".dz-fileid span").each(function(index) {
+                files[index].idFile = $(this).text();
+            })
+            $(".dz-size strong").each(function(index) {
+                files[index].size = parseFloat($(this).text());
+            })
+            var addPieceJoins = JSON.stringify(files);
+            // console.log(addPieceJoins);
+            marque = $('#marque').val();
+            model = $('#model').val();
+            matricule = $('#matricule').val();
+            var proprietaire = $('#proprietaire').val();
+            //var myString = "23/05/2013";
+            var arr = proprietaire.split('->');
+            proprietaire = arr[0].trim();
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "{{ path ('voiture_create')}}",
+                        cache: false,
+                        global: false,
+                        data: {'marque': marque, 'model': model, 'matricule': matricule, 'proprietaire': proprietaire, 'addPieceJoins': addPieceJoins},
+                        beforeSend: function() {
+                            $('.bokeh').show();
+                        },
+                        success: function(json) {
+                            alertify.success("Ajouter avec succes");
+                            $('.bokeh').hide();
+                            $('#btnmodal').hide();
+
+                            // $('#myModal').modal('show');
+                            setTimeout(function() {
+                                // $("#myModal").hide();
+                                $('.modal-backdrop').css("display", "none");
+                            }, 5000);
+                        },
+                        error: function() {
+
+                        }
+                    });
+
+        }
+        function   annuler()
+        {
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('fonction').value = '';
+        }
+    </script>
+{% endblock %}
